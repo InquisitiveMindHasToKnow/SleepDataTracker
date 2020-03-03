@@ -38,7 +38,7 @@ class SleepDetailsFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
-        sleepDetailViewModel.navigateToSleepTracker.observe(this, Observer {
+        sleepDetailViewModel.navigateToSleepTracker.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 this.findNavController().navigate(
                     SleepDetailsFragmentDirections.actionSleepDetailFragmentToSleepTrackerFragment()
