@@ -1,5 +1,6 @@
 package org.ohmstheresistance.sleepdatatracker.sleeptracker
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import org.ohmstheresistance.sleepdatatracker.databinding.SleepTrackerFragmentBi
 
 class SleepTrackerFragment : Fragment() {
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -35,22 +37,30 @@ class SleepTrackerFragment : Fragment() {
 
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
+        val sleepAdapter = SleepNightAdapter()
+        binding.sleepTrackerRecyclerView.adapter = sleepAdapter
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                sleepAdapter.data = it
+            }
+        })
+
         binding.setLifecycleOwner(this)
 
-        sleepTrackerViewModel.showSnackBarEvent.observe(this, Observer {
+        sleepTrackerViewModel.showSnackBarEvent.observe(viewLifecycleOwner, Observer {
 
             if (it == true) {
                 Snackbar.make(
                     activity!!.findViewById(android.R.id.content),
                     getString(R.string.cleared_message),
-                    Snackbar.LENGTH_SHORT // How long to display the message.
+                    Snackbar.LENGTH_SHORT
                 ).show()
 
                 sleepTrackerViewModel.doneShowingSnackbar()
             }
         })
 
-        sleepTrackerViewModel.navigateToSleepQuality.observe(this, Observer { night ->
+        sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer { night ->
             night?.let {
 
                 this.findNavController().navigate(
