@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -34,6 +35,7 @@
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="@+id/sleep_length"
         app:layout_constraintStart_toStartOf="@+id/sleep_length"
         app:layout_constraintTop_toBottomOf="@+id/sleep_length"
