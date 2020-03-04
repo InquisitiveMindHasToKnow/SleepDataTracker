@@ -11,10 +11,9 @@ import org.ohmstheresistance.sleepdatatracker.convertDurationToFormatted
 import org.ohmstheresistance.sleepdatatracker.convertNumericQualityToString
 import org.ohmstheresistance.sleepdatatracker.database.SleepNight
 
-class SleepNightAdapter: RecyclerView.Adapter<SleepNightAdapter.SleepNightViewHolder>() {
+class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.SleepNightViewHolder>() {
 
     var data = listOf<SleepNight>()
-
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -22,10 +21,7 @@ class SleepNightAdapter: RecyclerView.Adapter<SleepNightAdapter.SleepNightViewHo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepNightViewHolder {
 
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.sleep_item_view, parent, false)
-
-        return SleepNightViewHolder(view)
+        return SleepNightViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: SleepNightViewHolder, position: Int) {
@@ -35,10 +31,11 @@ class SleepNightAdapter: RecyclerView.Adapter<SleepNightAdapter.SleepNightViewHo
     }
 
     override fun getItemCount(): Int {
-      return data.size
+        return data.size
     }
 
-    class SleepNightViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class SleepNightViewHolder private constructor(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
 
         var sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
         var quality: TextView = itemView.findViewById(R.id.quality_string)
@@ -48,17 +45,30 @@ class SleepNightAdapter: RecyclerView.Adapter<SleepNightAdapter.SleepNightViewHo
 
             val res = itemView.context.resources
 
-            sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
+            sleepLength.text =
+                convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
             quality.text = convertNumericQualityToString(item.sleepQuality, res)
-            qualityImage.setImageResource(when (item.sleepQuality) {
-                0 -> R.drawable.ic_sleep_0
-                1 -> R.drawable.ic_sleep_1
-                2 -> R.drawable.ic_sleep_2
-                3 -> R.drawable.ic_sleep_3
-                4 -> R.drawable.ic_sleep_4
-                5 -> R.drawable.ic_sleep_5
-                else -> R.drawable.ic_sleep_active
-            })
+            qualityImage.setImageResource(
+                when (item.sleepQuality) {
+                    0 -> R.drawable.ic_sleep_0
+                    1 -> R.drawable.ic_sleep_1
+                    2 -> R.drawable.ic_sleep_2
+                    3 -> R.drawable.ic_sleep_3
+                    4 -> R.drawable.ic_sleep_4
+                    5 -> R.drawable.ic_sleep_5
+                    else -> R.drawable.ic_sleep_active
+                }
+            )
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): SleepNightViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater
+                    .inflate(R.layout.sleep_item_view, parent, false)
+
+                return SleepNightViewHolder(view)
+            }
         }
     }
 }
