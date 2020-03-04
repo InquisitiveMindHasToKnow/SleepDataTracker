@@ -1,10 +1,7 @@
 package org.ohmstheresistance.sleepdatatracker.sleeptracker
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +9,10 @@ import org.ohmstheresistance.sleepdatatracker.R
 import org.ohmstheresistance.sleepdatatracker.convertDurationToFormatted
 import org.ohmstheresistance.sleepdatatracker.convertNumericQualityToString
 import org.ohmstheresistance.sleepdatatracker.database.SleepNight
+import org.ohmstheresistance.sleepdatatracker.databinding.SleepItemViewBinding
 
-class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.SleepNightViewHolder>(SleepNightDiffCallback()) {
+class SleepNightAdapter :
+    ListAdapter<SleepNight, SleepNightAdapter.SleepNightViewHolder>(SleepNightDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepNightViewHolder {
 
@@ -26,21 +25,16 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.SleepNightVi
         holder.bind(item)
     }
 
-    class SleepNightViewHolder private constructor(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-
-        var sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
-        var quality: TextView = itemView.findViewById(R.id.quality_string)
-        val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+    class SleepNightViewHolder private constructor(val binding: SleepItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SleepNight) {
 
             val res = itemView.context.resources
 
-            sleepLength.text =
+            binding.sleepLength.text =
                 convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
-            quality.text = convertNumericQualityToString(item.sleepQuality, res)
-            qualityImage.setImageResource(
+            binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
+            binding.qualityImage.setImageResource(
                 when (item.sleepQuality) {
                     0 -> R.drawable.ic_sleep_0
                     1 -> R.drawable.ic_sleep_1
@@ -56,13 +50,14 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.SleepNightVi
         companion object {
             fun from(parent: ViewGroup): SleepNightViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater
-                    .inflate(R.layout.sleep_item_view, parent, false)
 
-                return SleepNightViewHolder(view)
+                val binding = SleepItemViewBinding.inflate(layoutInflater, parent, false)
+
+                return SleepNightViewHolder(binding)
             }
         }
     }
+
     class SleepNightDiffCallback : DiffUtil.ItemCallback<SleepNight>() {
         override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
 
