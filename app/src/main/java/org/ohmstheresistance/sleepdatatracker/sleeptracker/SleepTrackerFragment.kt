@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 
 import org.ohmstheresistance.sleepdatatracker.R
 import org.ohmstheresistance.sleepdatatracker.database.SleepDatabase
@@ -36,6 +37,9 @@ class SleepTrackerFragment : Fragment() {
                 this, viewModelFactory).get(SleepTrackerViewModel::class.java)
 
         binding.sleepTrackerViewModel = sleepTrackerViewModel
+
+        val manager = GridLayoutManager(activity, 3)
+        binding.sleepTrackerRecyclerView.layoutManager = manager
 
         val sleepAdapter = SleepNightAdapter()
         binding.sleepTrackerRecyclerView.adapter = sleepAdapter
