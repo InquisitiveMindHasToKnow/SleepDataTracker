@@ -5,9 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.ohmstheresistance.sleepdatatracker.R
-import org.ohmstheresistance.sleepdatatracker.convertDurationToFormatted
-import org.ohmstheresistance.sleepdatatracker.convertNumericQualityToString
 import org.ohmstheresistance.sleepdatatracker.database.SleepNight
 import org.ohmstheresistance.sleepdatatracker.databinding.SleepItemViewBinding
 
