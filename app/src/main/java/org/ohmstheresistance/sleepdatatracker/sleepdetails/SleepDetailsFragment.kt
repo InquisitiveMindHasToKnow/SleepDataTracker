@@ -26,25 +26,25 @@ class SleepDetailsFragment : Fragment() {
         )
 
         val application = requireNotNull(this.activity).application
-        val arguments = SleepDetailsFragmentArgs.fromBundle(arguments!!)
+        val arguments = SleepDetailsFragmentArgs.fromBundle(requireArguments())
 
         val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
         val viewModelFactory = SleepDetailsViewModelFactory(arguments.sleepNightKey, dataSource)
 
-        val sleepDetailViewModel =
+        val sleepDetailsViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(SleepDetailsViewModel::class.java)
 
-        binding.sleepDetailViewModel = sleepDetailViewModel
+        binding.sleepDetailsViewModel = sleepDetailsViewModel
 
         binding.setLifecycleOwner(this)
 
-        sleepDetailViewModel.navigateToSleepTracker.observe(viewLifecycleOwner, Observer {
+        sleepDetailsViewModel.navigateToSleepTracker.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 this.findNavController().navigate(
                     SleepDetailsFragmentDirections.actionSleepDetailFragmentToSleepTrackerFragment()
                 )
 
-                sleepDetailViewModel.doneNavigating()
+                sleepDetailsViewModel.doneNavigating()
             }
         })
 
