@@ -7,4 +7,6 @@
     <color name="green_color">#0048a4</color>
     <color name="white_text_color">#FFFFFF</color>
 
+    <color name="item_view_background_color">#f4c787</color>
+
 </resources>
