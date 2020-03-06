@@ -7,11 +7,20 @@
         <variable
             name="sleep"
             type="org.ohmstheresistance.sleepdatatracker.database.SleepNight"/>
+
+        <variable
+            name="clickListener"
+            type="org.ohmstheresistance.sleepdatatracker.sleeptracker.SleepNightAdapter.SleepNightClickListener"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/item_view_background_color"
+        android:onClick="@{() -> clickListener.onClick(sleep)}"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="12dp">
 
         <ImageView

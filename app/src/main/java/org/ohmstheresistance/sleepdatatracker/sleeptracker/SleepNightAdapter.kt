@@ -11,7 +11,7 @@ import org.ohmstheresistance.sleepdatatracker.convertNumericQualityToString
 import org.ohmstheresistance.sleepdatatracker.database.SleepNight
 import org.ohmstheresistance.sleepdatatracker.databinding.SleepItemViewBinding
 
-class SleepNightAdapter :
+class SleepNightAdapter(val clickListener: SleepNightClickListener) :
     ListAdapter<SleepNight, SleepNightAdapter.SleepNightViewHolder>(SleepNightDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepNightViewHolder {
@@ -22,13 +22,15 @@ class SleepNightAdapter :
     override fun onBindViewHolder(holder: SleepNightViewHolder, position: Int) {
 
         val item = getItem(position)
-        holder.bind(item)
+
+        holder.bind(clickListener,item)
     }
 
     class SleepNightViewHolder private constructor(val binding: SleepItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SleepNight) {
+        fun bind(clickListener: SleepNightClickListener, item: SleepNight) {
             binding.sleep = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -53,5 +55,9 @@ class SleepNightAdapter :
 
             return oldItem == newItem
         }
+    }
+
+    class SleepNightClickListener(val clickListener: (sleepId: Long) -> Unit) {
+        fun onClick(night: SleepNight) = clickListener(night.nightId)
     }
 }
